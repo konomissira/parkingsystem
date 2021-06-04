@@ -3,7 +3,6 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
-
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket){
@@ -11,22 +10,19 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
-        long inTime = ticket.getInTime().getTime();
-        long outTime = ticket.getOutTime().getTime();
+        int inHour = ticket.getInTime().getHours();
+        int outHour = ticket.getOutTime().getHours();
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
-        // (45*1,5/60)
-
-        double differenceInMilliseconds = outTime - inTime;
-        double durationInHour = ((differenceInMilliseconds / 1000) / 60) / 60; // temps passé entre l'arrivée de la voiture et son départ en heure
+        int duration = outHour - inHour;
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(durationInHour * Fare.CAR_RATE_PER_HOUR); // calcul du tarif à payer pour une voiture - pour 45 minutes, ça coute 1.125
+                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
                 break;
             }
             case BIKE: {
-                ticket.setPrice(durationInHour * Fare.BIKE_RATE_PER_HOUR); // calcul du tarif à payer pour une moto
+                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
