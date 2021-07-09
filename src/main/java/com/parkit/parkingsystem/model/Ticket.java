@@ -10,6 +10,15 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
+    private boolean regular;
+
+    public boolean isRegular() {
+        return regular;
+    }
+
+    public void setRegular(boolean regular) {
+        this.regular = regular;
+    }
 
     public int getId() {
         return id;
