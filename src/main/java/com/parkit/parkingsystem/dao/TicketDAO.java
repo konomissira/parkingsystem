@@ -58,6 +58,7 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
+                ticket.setRegular(isRegular(vehicleRegNumber));
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -86,4 +87,21 @@ public class TicketDAO {
         }
         return false;
     }
+
+    public boolean isRegular(String regVehicleNumber) {
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET_WITH_OUTTIME);
+            ps.setString(1, regVehicleNumber);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        }catch (Exception ex){
+            logger.error("Error get ticket info",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return false;
+    }
+
 }
