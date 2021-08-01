@@ -53,18 +53,24 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return inTime;
+        return inTime == null ? null : new Date(inTime.getTime());
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        if (inTime != null)
+            this.inTime = new Date(inTime.getTime());
+        else
+            this.inTime = null;
     }
 
     public Date getOutTime() {
-        return outTime;
+        return outTime == null ? null : new Date(outTime.getTime());
     }
 
     public void setOutTime(Date outTime) {
-        this.outTime = outTime;
+        if (outTime != null)
+            this.outTime = new Date(outTime.getTime());
+        else
+            this.outTime = null;
     }
 }
